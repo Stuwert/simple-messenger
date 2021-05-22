@@ -85,3 +85,9 @@ I'm going to store this locally in pouch db
 - Should prompt you to instead input an id rather than
 
 (so there would basically be a private key and a public key). The public key is accessible for all of the things, but the private key is only accessible from the user's perspective. Generate them both on new account create
+
+### Moar backend stuff
+
+- simple express server
+- POST request for a new user
+- sockets io

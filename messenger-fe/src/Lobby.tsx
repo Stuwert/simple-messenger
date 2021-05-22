@@ -21,6 +21,7 @@ export default function Lobby() {
   const [isModalVisible, updateModalVisibility] = useState(false);
   const [userIdToConnectTo, updateUserIdToConnectTo] = useState("");
   const [linkToUser, setUserToLinkTo] = useState("");
+  const [userName, setUserName] = useState<string | undefined>(undefined);
 
   const setModalVisible = () => updateModalVisibility(true);
   const setModalInvisible = () => updateModalVisibility(false);
@@ -55,13 +56,26 @@ export default function Lobby() {
     }
   }, []);
 
+  useEffect(() => {
+    const userName = localStorage.getItem("simple_messenger_private_id");
+    console.log({ userName });
+
+    setUserName(userName || "");
+  }, []);
+
   if (linkToUser !== "") {
     return <Redirect to={`/chat/${linkToUser}`} />;
   }
 
+  console.log({ userName });
+
+  if (userName === "") {
+    return <Redirect to="/welcome" />;
+  }
+
   return (
     <Content>
-      <PageHeader title="Lobby" />
+      <PageHeader title={`Welcome ${userName}`} />
       <Space direction="vertical">
         {availableRooms.map(({ userName, publicId }) => (
           <Card
@@ -86,7 +100,7 @@ export default function Lobby() {
         visible={isModalVisible}
       >
         <Input
-          placeholder="XXX-XXX"
+          placeholder="XXXXXX"
           size="large"
           prefix={<UserOutlined />}
           onChange={updateUserIdFromInput}
