@@ -4,11 +4,12 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import NewChat, { ConnectionDetails } from "./NewChat";
 import useSetUser from "../utilities/useSetUser";
-import usePusher from "../utilities/usePusher";
+import usePusher from "../utilities/pusherInstance";
+import IncomingChat from "./IncomingChat";
 
 // list out available chats
 // start a new chat
-// const baseChats = [{ userName: "bingBong", publicId: '123-456' }, { userName: 'singalong', publicId: '654-321'}]'
+// const baseChats = [{ username: "bingBong", publicId: '123-456' }, { username: 'singalong', publicId: '654-321'}]'
 
 export default function Lobby() {
   const [availableRooms, updateAvailableRooms] = useState<ConnectionDetails[]>(
@@ -19,13 +20,11 @@ export default function Lobby() {
     updateAvailableRooms([...availableRooms, newRoom]);
   };
 
-  // const [userName, setUserName] = useState<string | undefined>(undefined);
+  // const [username, setUserName] = useState<string | undefined>(undefined);
 
   const userDetails = useSetUser();
-  const pusherInstance = usePusher(userDetails?.privateId);
 
   console.log({ userDetails });
-  console.log(pusherInstance);
 
   /**
    * Manages the rooms we're connected to
@@ -49,13 +48,13 @@ export default function Lobby() {
   //  * Manages our user id
   //  */
   // useEffect(() => {
-  //   const userName = localStorage.getItem("simple_messenger_private_id");
-  //   console.log({ userName });
+  //   const username = localStorage.getItem("simple_messenger_private_id");
+  //   console.log({ username });
 
-  //   setUserName(userName || "");
+  //   setUserName(username || "");
   // }, []);
 
-  // console.log({ userName });
+  // console.log({ username });
 
   if (!userDetails) {
     return <div>Loading...</div>;
@@ -68,10 +67,14 @@ export default function Lobby() {
       </PageHeader>
       <Content>
         <NewChat addNewRoom={addNewRoom} />
+        <IncomingChat
+          addNewRoom={addNewRoom}
+          privateId={userDetails.privateId}
+        />
         <Space direction="vertical">
-          {availableRooms.map(({ userName, publicId }) => (
+          {availableRooms.map(({ username, publicId }) => (
             <Card
-              title={`Chat with ${userName || publicId}`}
+              title={`Chat with ${username || publicId}`}
               style={{ width: 200 }}
             >
               <Button type="primary">

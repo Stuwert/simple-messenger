@@ -1,16 +1,16 @@
-import { Button, Card, Col, Input, message, PageHeader, Row } from "antd";
+import { Button, Card, Col, Input, PageHeader, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 const testData = {
-  userName: "bingbong",
+  username: "bingbong",
   messages: [
     {
-      userName: "bingbong",
+      username: "bingbong",
       message: "hi",
     },
     {
-      userName: "me",
+      username: "me",
       message: "how are you",
     },
   ],
@@ -22,23 +22,23 @@ const testData = {
  * at a given time.
  *
  * That way we can basically care if the
- * userName in the room is the same as the userName
+ * username in the room is the same as the username
  * to determine whom it belongs to.
  */
 interface MessageDetails {
-  userName: string;
+  username: string;
   message: string;
   sentAt?: string;
 }
 
 interface UserChat {
-  userName: string;
+  username: string;
   messages: MessageDetails[];
 }
 
 function makeNewUserChat(publicId: string): UserChat {
   const newUserChat: UserChat = {
-    userName: "someName",
+    username: "someName",
     messages: [],
   };
 
@@ -62,13 +62,13 @@ function updateUserChat(message: string) {
 // On exit make sure to unsubscribe
 
 // Actually lol we won't know their username until they actually send it back from the API
-// TODO: Figure out how to get the userName back
+// TODO: Figure out how to get the username back
 // Actually just update it on the first subscription send
 
 export default function Chat() {
   const { id } = useParams<{ id: string }>();
   const [currentMessages, setMessages] = useState<MessageDetails[]>([]);
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const [currentMessage, setCurrentMessage] = useState("");
   const [isLoading, setLoading] = useState(false);
 
@@ -81,17 +81,17 @@ export default function Chat() {
     console.log(potentialMessages);
 
     if (potentialMessages) {
-      const { messages, userName } = JSON.parse(potentialMessages);
+      const { messages, username } = JSON.parse(potentialMessages);
 
       console.log(messages);
-      console.log(userName);
+      console.log(username);
 
       setMessages(messages);
-      setUserName(userName);
+      setUserName(username);
     } else {
-      const { messages, userName } = makeNewUserChat(id);
+      const { messages, username } = makeNewUserChat(id);
       setMessages(messages);
-      setUserName(userName);
+      setUserName(username);
     }
   }, []);
 
@@ -100,7 +100,7 @@ export default function Chat() {
 
     localStorage.setItem(
       `simple_messenger_app_chat_${id}`,
-      JSON.stringify({ userName, messages: newMessages })
+      JSON.stringify({ username, messages: newMessages })
     );
     setMessages(newMessages);
   };
@@ -109,7 +109,7 @@ export default function Chat() {
     setLoading(!isLoading);
 
     const message: MessageDetails = {
-      userName: "me",
+      username: "me",
       message: currentMessage,
     };
 
@@ -131,12 +131,12 @@ export default function Chat() {
 
   return (
     <>
-      <PageHeader title={`Chat with ${userName || id}`} />
+      <PageHeader title={`Chat with ${username || id}`} />
       {currentMessages.map((message) => (
         <Row>
-          <Col span={8} offset={message.userName === userName ? 0 : 16}>
+          <Col span={8} offset={message.username === username ? 0 : 16}>
             <Card title={message.message}>
-              <p>{message.userName}</p>
+              <p>{message.username}</p>
               <p>{message.sentAt}</p>
             </Card>
           </Col>

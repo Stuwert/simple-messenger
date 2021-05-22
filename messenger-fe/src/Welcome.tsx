@@ -4,7 +4,7 @@ import { Content } from "antd/lib/layout/layout";
 import { Redirect } from "react-router";
 
 export default function Welcome() {
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const [userNameInput, setUserNameInput] = useState("");
 
   const setPrivateKey = () => {
@@ -13,9 +13,9 @@ export default function Welcome() {
     setUserName(userNameInput);
   };
 
-  console.log(userName);
+  console.log(username);
 
-  if (userName) {
+  if (username) {
     return <Redirect to="/" />;
   }
 

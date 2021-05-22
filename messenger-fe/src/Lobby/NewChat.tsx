@@ -4,7 +4,7 @@ import { Redirect } from "react-router";
 import { UserOutlined } from "@ant-design/icons";
 
 export interface ConnectionDetails {
-  userName: string;
+  username: string;
   publicId: string;
 }
 
@@ -29,7 +29,7 @@ export default function NewChat({ addNewRoom }: { addNewRoom: Function }) {
   const createNewChat = () => {
     const userDetails: ConnectionDetails = {
       publicId: userIdToConnectTo,
-      userName: "", // This will be updated once we get the first message back from the user
+      username: "", // This will be updated once we get the first message back from the user
     };
 
     updateModalVisibility(false);
