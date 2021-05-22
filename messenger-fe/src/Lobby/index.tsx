@@ -6,6 +6,7 @@ import NewChat, { ConnectionDetails } from "./NewChat";
 import useSetUser from "../utilities/useSetUser";
 import usePusher from "../utilities/pusherInstance";
 import IncomingChat from "./IncomingChat";
+import { CHAT_RECORDS, USER_DETAILS } from "../utilities/localStorageValues";
 
 // list out available chats
 // start a new chat
@@ -30,7 +31,9 @@ export default function Lobby() {
    * Manages the rooms we're connected to
    */
   useEffect(() => {
-    const stringifiedRooms = localStorage.getItem("simple_messenger_app_chats");
+    const stringifiedRooms = localStorage.getItem(CHAT_RECORDS);
+
+    console.log(stringifiedRooms);
 
     if (stringifiedRooms) {
       updateAvailableRooms(JSON.parse(stringifiedRooms));
@@ -38,27 +41,14 @@ export default function Lobby() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(
-      "simple_messenger_app_chats",
-      JSON.stringify(availableRooms)
-    );
+    localStorage.setItem(CHAT_RECORDS, JSON.stringify(availableRooms));
   }, [availableRooms]);
-
-  // /**
-  //  * Manages our user id
-  //  */
-  // useEffect(() => {
-  //   const username = localStorage.getItem("simple_messenger_private_id");
-  //   console.log({ username });
-
-  //   setUserName(username || "");
-  // }, []);
-
-  // console.log({ username });
 
   if (!userDetails) {
     return <div>Loading...</div>;
   }
+
+  console.log(availableRooms);
 
   return (
     <>

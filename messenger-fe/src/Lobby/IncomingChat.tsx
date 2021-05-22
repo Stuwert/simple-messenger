@@ -34,11 +34,7 @@ export default function IncomingChat({
   useEffect(() => {
     const privateChannel = pusher.subscribe(privateId);
 
-    console.log(privateChannel.subscribed);
-
     privateChannel.bind("incoming-call", (message: ConnectionDetails) => {
-      console.log(message);
-
       setModalVisible();
       setUserRequestingConnection(message);
     });

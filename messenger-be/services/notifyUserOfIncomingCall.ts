@@ -2,12 +2,14 @@ import pusher from "../pusherInstance";
 import { User } from "./types";
 export default async function notifyUserOfIncomingCall(
   userToContact: User,
-  userMakingRequest: User
+  userMakingRequest: User,
+  roomId: string
 ): Promise<void> {
   console.log("makes it to pusher");
   console.log(userToContact.privateId);
   try {
     await pusher.trigger(userToContact.privateId, "incoming-call", {
+      roomId,
       publicId: userMakingRequest.publicId,
       username: userMakingRequest.username,
     });

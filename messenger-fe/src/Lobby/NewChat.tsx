@@ -6,6 +6,7 @@ import { UserOutlined } from "@ant-design/icons";
 export interface ConnectionDetails {
   username: string;
   publicId: string;
+  roomId: string;
 }
 
 export default function NewChat({ addNewRoom }: { addNewRoom: Function }) {
@@ -29,6 +30,7 @@ export default function NewChat({ addNewRoom }: { addNewRoom: Function }) {
   const createNewChat = () => {
     const userDetails: ConnectionDetails = {
       publicId: userIdToConnectTo,
+      roomId: "",
       username: "", // This will be updated once we get the first message back from the user
     };
 

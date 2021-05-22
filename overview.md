@@ -16,7 +16,7 @@
 
 ### Local Storages
 
-- simple_messenger_app_private_id
+- simple_messenger_app_user_detail
 - simple*messenger_app_chat*[public_id]
 - simple_messenger_app_chats (list of all public ids I'm chatting with)
 
@@ -69,7 +69,6 @@ I'm going to store this locally in pouch db
 
 ### Requirements FE
 
-- Should display a welcome screen
 - Should allow you to view existing
 - Should save to local storage
 - userId

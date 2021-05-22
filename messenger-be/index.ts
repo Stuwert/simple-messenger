@@ -30,7 +30,7 @@ app.post("/users/:user_id/connect", async (req, res) => {
     req.params.user_id
   );
 
-  await notifyUserOfIncomingCall(userToContact, userMakingRequest);
+  await notifyUserOfIncomingCall(userToContact, userMakingRequest, roomId);
   // request body private key id
   // sends an event to that user notifying them that so and so would like to connect
   // returns the name of the room to connect to

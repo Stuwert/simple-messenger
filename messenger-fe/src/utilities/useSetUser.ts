@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
+import { USER_DETAILS } from "./localStorageValues";
 
 export interface UserDetails {
   username: string;
@@ -22,9 +23,7 @@ export default function useSetUser(): UserDetails | undefined {
    * Manages our user id
    */
   useEffect(() => {
-    const stringifiedUserDetails = localStorage.getItem(
-      "simple_messenger_user_detail"
-    );
+    const stringifiedUserDetails = localStorage.getItem(USER_DETAILS);
 
     if (stringifiedUserDetails) {
       const userDetails = JSON.parse(stringifiedUserDetails);
@@ -35,10 +34,7 @@ export default function useSetUser(): UserDetails | undefined {
         .post("/users/create")
         .then(({ data }: AxiosResponse<UserDetails>) => {
           console.log({ data });
-          localStorage.setItem(
-            "simple_messenger_user_detail",
-            JSON.stringify(data)
-          );
+          localStorage.setItem(USER_DETAILS, JSON.stringify(data));
           setUserDetails(data);
         });
       // make request
