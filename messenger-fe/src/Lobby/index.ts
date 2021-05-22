@@ -1,5 +1,5 @@
 import { Button, Card, Input, PageHeader, Space } from "antd";
-import { Content } from "antd/lib/layout/layout";
+import { Content, Header } from "antd/lib/layout/layout";
 import Modal from "antd/lib/modal/Modal";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
@@ -74,38 +74,42 @@ export default function Lobby() {
   }
 
   return (
-    <Content>
-      <PageHeader title={`Welcome ${userName}`} />
-      <Space direction="vertical">
-        {availableRooms.map(({ userName, publicId }) => (
-          <Card
-            title={`Chat with ${userName || publicId}`}
-            style={{ width: 200 }}
-          >
-            <Button type="primary">
-              <Link to={`/chat/${publicId}`}>Connect</Link>
+    <>
+      <Header>
+        <PageHeader title={`Welcome ${userName}`} />
+        <Content>
+          <Card title="New Chat" style={{ width: 200 }}>
+            <Button type="primary" onClick={setModalVisible}>
+              Message New User
             </Button>
           </Card>
-        ))}
-      </Space>
-      <Card title="New Chat" style={{ width: 200 }}>
-        <Button type="primary" onClick={setModalVisible}>
-          Message New User
-        </Button>
-      </Card>
-      <Modal
-        title="Chat New User"
-        onOk={createNewChat}
-        onCancel={setModalInvisible}
-        visible={isModalVisible}
-      >
-        <Input
-          placeholder="XXXXXX"
-          size="large"
-          prefix={<UserOutlined />}
-          onChange={updateUserIdFromInput}
-        />
-      </Modal>
-    </Content>
+          <Space direction="vertical">
+            {availableRooms.map(({ userName, publicId }) => (
+              <Card
+                title={`Chat with ${userName || publicId}`}
+                style={{ width: 200 }}
+              >
+                <Button type="primary">
+                  <Link to={`/chat/${publicId}`}>Connect</Link>
+                </Button>
+              </Card>
+            ))}
+          </Space>
+          <Modal
+            title="Chat New User"
+            onOk={createNewChat}
+            onCancel={setModalInvisible}
+            visible={isModalVisible}
+          >
+            <Input
+              placeholder="XXXXXX"
+              size="large"
+              prefix={<UserOutlined />}
+              onChange={updateUserIdFromInput}
+            />
+          </Modal>
+        </Content>
+      </Header>
+    </>
   );
 }
