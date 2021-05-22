@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/users/create", async (req, res) => {
-  const user = await createUser(req.body.userName);
+  const user = await createUser();
   // send a user name
   // assigns a number and a private key
   // returns the private key back
@@ -38,6 +38,8 @@ app.post("/users/:user_id/connect", async (req, res) => {
   return res.status(200).send(roomId);
 });
 
-app.listen(3000, () => {
-  console.log("The application is listening on post 3000!");
+app.listen(process.env.PORT || 3000, () => {
+  console.log(
+    `The application is listening on post ${process.env.PORT || 3000}!`
+  );
 });

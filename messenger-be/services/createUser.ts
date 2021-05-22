@@ -2,6 +2,8 @@ import CryptoJS from "crypto-js";
 import knex from "../knexInstance";
 import { User } from "./types";
 
+const randomWord = require("random-word");
+
 const SECRET_KEY = "BING_BONG";
 
 export function generateUserNumber(): string {
@@ -28,8 +30,10 @@ export function generatePrivateKey(userNumber: string): string {
   );
 }
 
-export default async function (username: string): Promise<User> {
+export default async function (): Promise<User> {
   const newUserNumber = generateUserNumber();
+
+  const username = `${randomWord()} ${randomWord()}`;
 
   const [user] = await knex("users")
     .returning(["id", "public_id", "private_id"])
