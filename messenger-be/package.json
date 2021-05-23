@@ -19,7 +19,7 @@
     "build": "npx tsc",
     "migrate": "knex migrate:latest",
     "start": "node build/index.js",
-    "heroku-postbuild": "yarn migrate",
+    "heroku-postbuild": "yarn build && yarn migrate",
     "publish-heroku": "cd .. && git subtree push --prefix messenger-be heroku-backend master"
   },
   "devDependencies": {
