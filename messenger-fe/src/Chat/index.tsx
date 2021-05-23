@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Input, PageHeader, Row } from "antd";
+import { Button, Comment, Col, Input, PageHeader, Row, Affix } from "antd";
 import { useParams } from "react-router";
 import { USER_DETAILS } from "../utilities/localStorageValues";
 import getConnectionDetails from "../utilities/getConnectionDetails";
@@ -69,28 +69,30 @@ export default function Chat() {
       <PageHeader title={`Chat with ${chatUsername || chatUser.publicId}`} />
       {messages.map((message: MessageDetails, idx: number) => (
         <Row key={idx}>
-          <Col span={8} offset={message.username !== me ? 0 : 16}>
-            <Card title={message.message}>
-              <p>{message.username}</p>
-              <p>{message.sentAt}</p>
-            </Card>
+          <Col span={8} offset={message.username !== me ? 1 : 18}>
+            <Comment
+              author={<span>{message.username}</span>}
+              content={<p>{message.message}</p>}
+            />
           </Col>
         </Row>
       ))}
-      <Row>
-        <Col span={22}>
-          <Input
-            onPressEnter={sendMessage}
-            value={messageInProgress}
-            onChange={(e) => setMessageInProgress(e.target.value)}
-          />
-        </Col>
-        <Col span={2}>
-          <Button loading={sendingMessage} onClick={sendMessage}>
-            Send
-          </Button>
-        </Col>
-      </Row>
+      <Affix offsetBottom={10}>
+        <Row>
+          <Col span={22}>
+            <Input
+              onPressEnter={sendMessage}
+              value={messageInProgress}
+              onChange={(e) => setMessageInProgress(e.target.value)}
+            />
+          </Col>
+          <Col span={2}>
+            <Button loading={sendingMessage} onClick={sendMessage}>
+              Send
+            </Button>
+          </Col>
+        </Row>
+      </Affix>
     </>
   );
 }

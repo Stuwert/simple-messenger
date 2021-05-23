@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, PageHeader, Space } from "antd";
+import { Button, Card, PageHeader, Row } from "antd";
 import { Content } from "antd/lib/layout/layout";
 import { Link } from "react-router-dom";
 import NewChat from "./NewChat";
@@ -61,19 +61,15 @@ export default function Lobby() {
           addNewRoom={addNewRoom}
           privateId={userDetails.privateId}
         />
-        <Space direction="vertical">
+        <Row>
           {availableRooms.map(({ username, publicId }, idx: number) => (
-            <Card
-              title={`Chat with ${username || publicId}`}
-              style={{ width: 200 }}
-              key={idx}
-            >
+            <Card title={username || publicId} style={{ width: 250 }} key={idx}>
               <Button type="primary">
-                <Link to={`/chat/${publicId}`}>Connect</Link>
+                <Link to={`/chat/${publicId}`}>Chat</Link>
               </Button>
             </Card>
           ))}
-        </Space>
+        </Row>
       </Content>
     </>
   );

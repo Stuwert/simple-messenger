@@ -101,10 +101,9 @@ A lot of the bugs have come about as the result of making sure the primary path 
 - The send button pushes down over time and doesn't actually
 - If you navigate directly to a chat it will error.
 - The Browser doesn't save memory of your browsing history, so sometimes back doesn't work appropriately.
-- There are no tests at the moment.
 - The site is vulnerable to DDOS at the moment because opening and closing private browser tabs will create new user records.
 - The mobile view currently looks attrocious (and the desktop view isn't much better).
-- The local environment doesn't live reload.
+- The local api doesn't live reload.
 - The dev environments take 2 terminal windows to set up.
 - It's possible for a user to spam connections to another user by hitting the connect route over and over again. I don't think this would generate multiple new connections (given that it's the same roomId), but it would spam pop-ups.
 - Currently the POST message route doesn't validate that the user in question has access to the room.
