@@ -105,7 +105,6 @@ export default async function generateRoomId(
 
   const hashString = CryptoJS.SHA1(idString).toString(CryptoJS.enc.Hex);
 
-  console.log(hashString);
   // Because this never needs to be decrypted, we should be fine with this
   return {
     userToContact,

@@ -43,8 +43,6 @@ export default async function (): Promise<User> {
       private_id: generatePrivateKey(newUserNumber),
     });
 
-  console.log(user);
-
   return {
     username,
     publicId: user.public_id,

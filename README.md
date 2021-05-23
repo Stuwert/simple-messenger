@@ -23,3 +23,7 @@ https://stackoverflow.com/questions/1349404/generate-random-string-characters-in
 
 - TODO: Also get the env vars set up so this can connect appropriately to the rest of the stuff
 - Also explain it in the README
+
+## Deployment
+
+Deployment details taken from [How to Deploy Multiple Heroku Apps](https://adampaxton.com/how-to-deploy-to-multiple-heroku-apps-from-the-same-git-repository/)

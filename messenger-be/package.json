@@ -14,7 +14,8 @@
     "random-word": "^2.0.0"
   },
   "scripts": {
-    "dev": "ts-node index.ts"
+    "dev": "ts-node index.ts",
+    "publish-heroku": "cd .. && git subtree push --prefix messenger-be heroku-backend master"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.0.1",

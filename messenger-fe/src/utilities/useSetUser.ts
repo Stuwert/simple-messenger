@@ -17,8 +17,6 @@ export default function useSetUser(): UserDetails | undefined {
   const [userDetails, setUserDetails] =
     useState<UserDetails | undefined>(undefined);
 
-  console.log(process.env.REACT_APP_API_URL);
-
   /**
    * Manages our user id
    */
@@ -31,9 +29,8 @@ export default function useSetUser(): UserDetails | undefined {
       setUserDetails(userDetails);
     } else {
       axios
-        .post("/users/create")
+        .post(`/users/create`)
         .then(({ data }: AxiosResponse<UserDetails>) => {
-          console.log({ data });
           localStorage.setItem(USER_DETAILS, JSON.stringify(data));
           setUserDetails(data);
         });

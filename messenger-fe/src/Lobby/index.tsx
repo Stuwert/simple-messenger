@@ -1,12 +1,11 @@
-import { Button, Card, Input, PageHeader, Space } from "antd";
-import { Content, Header } from "antd/lib/layout/layout";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Button, Card, PageHeader, Space } from "antd";
+import { Content } from "antd/lib/layout/layout";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import NewChat, { ConnectionDetails } from "./NewChat";
 import useSetUser from "../utilities/useSetUser";
-import usePusher from "../utilities/pusherInstance";
 import IncomingChat from "./IncomingChat";
-import { CHAT_RECORDS, USER_DETAILS } from "../utilities/localStorageValues";
+import { CHAT_RECORDS } from "../utilities/localStorageValues";
 
 // list out available chats
 // start a new chat
@@ -25,15 +24,11 @@ export default function Lobby() {
 
   const userDetails = useSetUser();
 
-  console.log({ userDetails });
-
   /**
    * Manages the rooms we're connected to
    */
   useEffect(() => {
     const stringifiedRooms = localStorage.getItem(CHAT_RECORDS);
-
-    console.log(stringifiedRooms);
 
     if (stringifiedRooms) {
       updateAvailableRooms(JSON.parse(stringifiedRooms));
@@ -48,24 +43,23 @@ export default function Lobby() {
     return <div>Loading...</div>;
   }
 
-  console.log(availableRooms);
-
   return (
     <>
       <PageHeader title={`Welcome ${userDetails.username}`}>
         Other Users Can Reach You At: {userDetails.publicId}
       </PageHeader>
       <Content>
-        <NewChat addNewRoom={addNewRoom} />
+        <NewChat addNewRoom={addNewRoom} privateId={userDetails.privateId} />
         <IncomingChat
           addNewRoom={addNewRoom}
           privateId={userDetails.privateId}
         />
         <Space direction="vertical">
-          {availableRooms.map(({ username, publicId }) => (
+          {availableRooms.map(({ username, publicId }, idx: number) => (
             <Card
               title={`Chat with ${username || publicId}`}
               style={{ width: 200 }}
+              key={idx}
             >
               <Button type="primary">
                 <Link to={`/chat/${publicId}`}>Connect</Link>

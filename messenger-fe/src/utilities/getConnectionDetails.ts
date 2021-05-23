@@ -1,12 +1,6 @@
 import { ConnectionDetails } from "../Lobby/NewChat";
 import { CHAT_RECORDS } from "./localStorageValues";
 
-export interface MessageDetails {
-  username: string;
-  message: string;
-  sentAt?: string;
-}
-
 export default function getConnectionDetails(
   publicId: string
 ): ConnectionDetails {

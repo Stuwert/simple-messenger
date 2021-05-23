@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import pusher from "../utilities/pusherInstance";
-import getConnectionDetails, {
-  MessageDetails,
-} from "../utilities/getConnectionDetails";
+import getConnectionDetails from "../utilities/getConnectionDetails";
 import { getUserStorageLocation } from "../utilities/localStorageValues";
+import axios from "axios";
+
+export interface MessageDetails {
+  username: string;
+  message: string;
+  sentAt?: string;
+}
 
 export default function useChat(
   publicId: string,
@@ -12,12 +17,14 @@ export default function useChat(
   const storageLocation = getUserStorageLocation(publicId);
   const { roomId } = getConnectionDetails(publicId);
 
+  const [messageToAddToLocal, addMessageToQueue] =
+    useState<MessageDetails | undefined>(undefined);
   const [messages, setMessages] = useState<MessageDetails[]>([]);
   const [messageToSend, setMessagetoSend] =
     useState<MessageDetails | undefined>(undefined);
 
   /**
-   * Manages the chat we're connected to
+   * Manages the localstorage we're connected to
    */
   useEffect(() => {
     const chat = localStorage.getItem(getUserStorageLocation(publicId));
@@ -25,7 +32,7 @@ export default function useChat(
     if (chat) {
       setMessages(JSON.parse(chat));
     }
-  }, []);
+  }, [publicId]);
 
   useEffect(() => {
     localStorage.setItem(storageLocation, JSON.stringify(messages));
@@ -33,23 +40,35 @@ export default function useChat(
 
   useEffect(() => {
     const roomChannel = pusher.subscribe(roomId);
-
-    if (messageToSend) {
-      setMessages([...messages, messageToSend]);
-      setMessagetoSend(undefined);
-      roomChannel.trigger("client-message", messageToSend);
-    }
-
-    roomChannel.bind("client-message", (message: MessageDetails) => {
+    roomChannel.bind("message", (message: MessageDetails) => {
       if (message.username !== me) {
-        setMessages([...messages, message]);
+        // theoretically we would add the logic here
+        // to update the username if we don't have it
+
+        addMessageToQueue(message);
       }
     });
 
     return () => {
       pusher.unsubscribe(roomId);
     };
-  }, [messageToSend, roomId, me, messages]);
+  }, [roomId, me]);
+
+  useEffect(() => {
+    if (messageToSend) {
+      axios.post(`/rooms/${roomId}/message`, messageToSend);
+
+      addMessageToQueue(messageToSend);
+      setMessagetoSend(undefined);
+    }
+  }, [messageToSend, roomId]);
+
+  useEffect(() => {
+    if (messageToAddToLocal) {
+      setMessages([...messages, messageToAddToLocal]);
+      addMessageToQueue(undefined);
+    }
+  }, [messages, messageToAddToLocal]);
 
   return [messages, setMessagetoSend];
 }

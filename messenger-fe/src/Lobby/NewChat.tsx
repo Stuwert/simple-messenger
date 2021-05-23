@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { Card, Button, Modal, Input } from "antd";
 import { Redirect } from "react-router";
 import { UserOutlined } from "@ant-design/icons";
+import useCreateConnection from "./useCreateConnection";
 
 export interface ConnectionDetails {
   username: string;
@@ -9,39 +10,31 @@ export interface ConnectionDetails {
   roomId: string;
 }
 
-export default function NewChat({ addNewRoom }: { addNewRoom: Function }) {
-  /**
-   * Also needs to subscribe to the notification state
-   * where someone pings us
-   */
-  const [linkToUser, setUserToLinkTo] = useState("");
-
-  const [userIdToConnectTo, updateUserIdToConnectTo] = useState("");
-
-  const updateUserIdFromInput = (e: ChangeEvent<HTMLInputElement>) => {
-    updateUserIdToConnectTo(e.target.value);
-  };
-
+export default function NewChat({
+  addNewRoom,
+  privateId,
+}: {
+  addNewRoom: Function;
+  privateId: string;
+}) {
   const [isModalVisible, updateModalVisibility] = useState(false);
-
   const setModalVisible = () => updateModalVisibility(true);
   const setModalInvisible = () => updateModalVisibility(false);
 
-  const createNewChat = () => {
-    const userDetails: ConnectionDetails = {
-      publicId: userIdToConnectTo,
-      roomId: "",
-      username: "", // This will be updated once we get the first message back from the user
-    };
+  const [publicIdString, setPublicIdString] = useState("");
 
-    updateModalVisibility(false);
-    // Change this to
-    addNewRoom(userDetails);
-    setUserToLinkTo(userIdToConnectTo);
+  const [linkToUser, connectToNewUser] = useCreateConnection(
+    addNewRoom,
+    privateId
+  );
+  const createNewChat = () => connectToNewUser(publicIdString);
+
+  const updateUserIdFromInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setPublicIdString(e.target.value);
   };
 
-  if (linkToUser !== "") {
-    return <Redirect to={`/chat/${linkToUser}`} />;
+  if (linkToUser) {
+    return <Redirect to={`/chat/${linkToUser.publicId}`} />;
   }
 
   return (

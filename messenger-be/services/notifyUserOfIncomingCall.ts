@@ -5,8 +5,6 @@ export default async function notifyUserOfIncomingCall(
   userMakingRequest: User,
   roomId: string
 ): Promise<void> {
-  console.log("makes it to pusher");
-  console.log(userToContact.privateId);
   try {
     await pusher.trigger(userToContact.privateId, "incoming-call", {
       roomId,

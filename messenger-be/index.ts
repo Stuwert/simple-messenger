@@ -6,6 +6,7 @@ require("dotenv").config();
 import createUser from "./services/createUser";
 import generateRoomId from "./services/generateRoomId";
 import notifyUserOfIncomingCall from "./services/notifyUserOfIncomingCall";
+import sendMessageToRoom from "./services/sendMessageToRoom";
 
 const app = express();
 var jsonParser = bodyParser.json();
@@ -36,6 +37,10 @@ app.post("/users/:user_id/connect", async (req, res) => {
   // returns the name of the room to connect to
 
   return res.status(200).send(roomId);
+});
+
+app.post("/rooms/:room_id/message", async (req, res) => {
+  await sendMessageToRoom(req.params.room_id, req.body);
 });
 
 app.listen(process.env.PORT || 3000, () => {
