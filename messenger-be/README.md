@@ -1,22 +1,49 @@
-Using knex here because I'm trying to keep the backend light.
+# API Overview and Implementation
 
-The goal of the backend is mostly to orchestrate rooms based on different names, and then manage sending messages back and forth between them.
+The API's main job is to orchestrate connections between clients by generating "secret" roomIds for users to connnect to and ensuring that no two users end up with the same number.
 
-I actually think it should be a post request to get the room name back, that way it's encrypted.
+## Routes
 
-i.e. the user requests a room, the db encrypts it and then sends it back
+### POST /users/create
 
-- As long as the encryption pattern is always the same this should be fine: sort by name, encrypt, return the room.
+This route gets hit when a user first logs in, and should not be hit after that.
 
-## Overview of the API
+```
+// Request Body
+{}
 
-There are no keys as it's presumed to already have them or be added in other ways
+// Response Body
+{
+  publicId: String;
+  privateId: String;
+  username: String;
+}
+```
 
-- POST /users/create
-- POST /rooms/join (requests the code for the)
-  - If the user doesn't exist it makes some gibberish up, that way you don't have access to a user you've never met before
-- Pusher stuff
+### POST /users/:user_id/connect
 
-## Something here to change it
+This is how a user requests a connection to another user. The API should respond with a roughly unique `roomId` regardless whether or not the `publicKey` currently exists. This is a _nod_ at identity obfuscation.
 
-bing bong
+```
+// Request
+{
+  privateId: string
+}
+
+// Response
+roomId
+```
+
+### POST /rooms/:room_id/message
+
+This sends a message to a room.
+
+```
+// Request
+{
+  privateId: string;
+}
+
+// Response
+undefined
+```

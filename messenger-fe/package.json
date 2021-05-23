@@ -24,8 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "publish-heroku": "cd .. && git subtree push --prefix messenger-fe heroku-frontend master"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
