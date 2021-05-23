@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 require("dotenv").config();
 
@@ -11,6 +12,7 @@ import sendMessageToRoom from "./services/sendMessageToRoom";
 const app = express();
 var jsonParser = bodyParser.json();
 app.use(jsonParser);
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("it works");
