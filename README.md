@@ -99,7 +99,7 @@ A lot of the bugs have come about as the result of making sure the primary path 
 - Users will only get pinged once of an incoming message request. That means if the user isn't present to receive that request they'll pretty much never be able to contact that user again, unless they initiate!
 - If a user inputs a number they already have access to, it's likely that a new session will generate and but they'll be linked to the old details.
 - The send button pushes down over time and doesn't actually
-- If you navigate directly to a chat first it will error unhelpfully.
+- If you navigate directly to a chat it will error.
 - The Browser doesn't save memory of your browsing history, so sometimes back doesn't work appropriately.
 - There are no tests at the moment.
 - The site is vulnerable to DDOS at the moment because opening and closing private browser tabs will create new user records.
@@ -115,6 +115,7 @@ A lot of the bugs have come about as the result of making sure the primary path 
 - Cors is set to allow all. It could be better restricted.
 - The input for "Connect to new user" is not forgiving
 - There's a nod in the data-structure but no explicit sort on created/updated date, so if messages accidentally get saved in the wrong order they'll stay that way.
+- There's no defined character limit, so it will likely error based on whatever Pusher's requirements are.
 
 ## Strengths and Weaknesses of this Approach
 
