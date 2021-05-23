@@ -56,7 +56,10 @@ export default function useChat(
 
   useEffect(() => {
     if (messageToSend) {
-      axios.post(`/rooms/${roomId}/message`, messageToSend);
+      axios.post(
+        `${process.env.REACT_APP_API_URL}/rooms/${roomId}/message`,
+        messageToSend
+      );
 
       addMessageToQueue(messageToSend);
       setMessagetoSend(undefined);

@@ -29,7 +29,7 @@ export default function useSetUser(): UserDetails | undefined {
       setUserDetails(userDetails);
     } else {
       axios
-        .post(`/users/create`)
+        .post(`${process.env.REACT_APP_API_URL}/users/create`)
         .then(({ data }: AxiosResponse<UserDetails>) => {
           localStorage.setItem(USER_DETAILS, JSON.stringify(data));
           setUserDetails(data);
