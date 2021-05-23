@@ -1,3 +1,4 @@
+require("dotenv").config();
 export default {
   client: "pg",
   connection: process.env.DATABASE_URL || {
@@ -8,8 +9,5 @@ export default {
   },
   migrations: {
     tableName: "migrations",
-  },
-  ssl: {
-    rejectUnauthorized: false,
   },
 };

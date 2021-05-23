@@ -1,6 +1,6 @@
 # Overview
 
-This project represents an example implemenetation of a simple messenging app built with React on the Front end and Typescript and Express in the API.
+This project represents an example implemenetation of a simple messaging app built with React on the Front end and Typescript and Express in the API.
 
 I got excited by the concept of the project (a straightforward messaging app), and wanted to think through how to allow multiple people to directly communicate with one another but without the overhead of definingn things like authentication and users (as specified by the requirements), and also to nod at "privacy" by making it hard for different members to snoop on each other's calls simply by knowing user names.
 
@@ -11,23 +11,6 @@ When you first visit the website, you'll be assigned a username, public key, and
 When you ask to chat with a user, they should see a pop-up (if they're on the website), asking to chat. The requesting user will immediately go to the chat room (regardless if the number exists or not). The user being requested can either cancel or accept, and they'll go into the same chat. Chats between the two users should be relatively instantaneous.
 
 If you'd like to see a working copy on production, go to: https://simple-messenger.playthistonight.com
-
-## Limitations and Bugs
-
-A lot of the bugs have come about as the result of making sure the primary path works (requesting to chat with different users from a single platform). Things like graceful errors have mostly been ignored.
-
-- Users will only get pinged once of an incoming message request. That means if the user isn't present to receive that request they'll pretty much never be able to contact that user again, unless they initiate!
-- If a user inputs a number they already have access to, it's likely that a new session will generate and but they'll be linked to the old details.
-- The send button pushes down over time and doesn't actually
-- If you navigate directly to a chat first it will error unhelpfully.
-- The Browser doesn't save memory of your browsing history, so sometimes back doesn't work appropriately.
-- There are no tests at the moment.
-- The site is vulnerable to DDOS at the moment because opening and closing private browser tabs will create new user records.
-- The mobile view currently looks attrocious (and the desktop view isn't much better).
-- The local environment doesn't live reload.
-- The dev environments take 2 terminal windows to set up.
-- It's possible for a user to spam connections to another user by hitting the connect route over and over again. I don't think this would generate multiple new connections (given that it's the same roomId), but it would spam pop-ups.
-- Currently the POST message route doesn't validate that the user in question has access to the room.
 
 ## Dev Set-up
 
@@ -101,6 +84,27 @@ Deploying to the backend occurs via a custom build in the `package.json` (runnin
 ).
 
 Pushing to `main` will build the Netlify app out of the `messenger-fe` directory.
+
+## Limitations and Bugs
+
+A lot of the bugs have come about as the result of making sure the primary path works (requesting to chat with different users from a single platform). Because no messages are stored this means that anything that's not captured real time will mostly disappear. This appeared within the requirements. Things like graceful errors have mostly been ignored.
+
+- Users will only get pinged once of an incoming message request. That means if the user isn't present to receive that request they'll pretty much never be able to contact that user again, unless they initiate!
+- If a user inputs a number they already have access to, it's likely that a new session will generate and but they'll be linked to the old details.
+- The send button pushes down over time and doesn't actually
+- If you navigate directly to a chat first it will error unhelpfully.
+- The Browser doesn't save memory of your browsing history, so sometimes back doesn't work appropriately.
+- There are no tests at the moment.
+- The site is vulnerable to DDOS at the moment because opening and closing private browser tabs will create new user records.
+- The mobile view currently looks attrocious (and the desktop view isn't much better).
+- The local environment doesn't live reload.
+- The dev environments take 2 terminal windows to set up.
+- It's possible for a user to spam connections to another user by hitting the connect route over and over again. I don't think this would generate multiple new connections (given that it's the same roomId), but it would spam pop-ups.
+- Currently the POST message route doesn't validate that the user in question has access to the room.
+- The timestamps on user create records don't save (they need to be added to the insert).
+- There's no validation on public or private key (and the insert isn't retried), so it's possible to fail on the loading state if one of those were to hit a unique constraint.
+- Public and Private keys can get lost forever if the user clears local cache without
+- There's no back button to easily access the lobby from a chat.
 
 ## Questions, Comments, Concerns
 
