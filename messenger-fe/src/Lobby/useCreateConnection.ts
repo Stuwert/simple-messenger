@@ -12,7 +12,6 @@ export default function useCreateConnection(
   const [publicIdToConnectTo, setPublicIdToConnectTo] = useState("");
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_API_URL);
     if (publicIdToConnectTo) {
       axios
         .post(
