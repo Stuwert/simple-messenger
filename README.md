@@ -19,7 +19,7 @@ If you'd like to see a working copy on production, go to: https://simple-messeng
 
 The developer set-up presumes you already have Postgres, Yarn, and Node installed on your machine.
 
-There will be some Pusher keys required to get set-up. Either create a Pusher account for yourself here: https://dashboard.pusher.com/accounts/sign_up (they have very generous terms).
+There will be some Pusher keys required to get set-up. Either create a Pusher account for yourself here: https://dashboard.pusher.com/accounts/sign_up (they have very generous terms). The corresponding naming conventions of the env variables and the Pusher names should line-up except for casing.
 
 To get the entire system running locally you'll need 2 terminal windows running simultaneously (one for the front end and one for the back end).
 
