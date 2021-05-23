@@ -1,4 +1,4 @@
-import { CHAT_RECORDS, USER_DETAILS } from "./localStorageValues";
+import { CHAT_RECORDS } from "./localStorageValues";
 import { UserDetails } from "../Lobby/useSetUser";
 
 export default function updateUserConnectionDetails(

@@ -2,11 +2,14 @@
 
 This project represents an example implemenetation of a simple messaging app built with React on the Front end and Typescript and Express in the API.
 
-I got excited by the concept of the project (a straightforward messaging app), and wanted to think through how to allow multiple people to directly communicate with one another but without the overhead of definingn things like authentication and users (as specified by the requirements), and also to nod at "privacy" by making it hard for different members to snoop on each other's calls simply by knowing user names.
+There were two main requirements for the app:
 
-I went with a "Heroku-like" naming schema where users would get a randomly assigned name and then kicked into the chat. Every subsequent time they visit the website (assuming they don't clear their cache), they should have access to the same set of messages and name.
+- Users should be able to chat with other users (similar to facebook messenger or google chat)
+- Users should see messages pop up in a reasonably short amount of time.
 
-When you first visit the website, you'll be assigned a username, public key, and private key. These will be saved to localstorage so each time you visit again you'll have access to them.
+I was interested in the idea of the orchestration piece. Basically, how could we get away from hardcoding user values and instead allowing people to contact one another. My goal was to keep this as low overhead as possible. There were no requirements related to message storage so I stayed away from that, mainly focusing on connecting users to one another in the most succinct way possible, and while exposing as little information as possible.
+
+I went with a "Heroku-like" naming schema where users would get a randomly assigned name and then kicked into a lobby where they could select other users to chat with. Every subsequent time they visit the website (assuming they don't clear their cache), they should have access to the same set of messages and name.
 
 When you ask to chat with a user, they should see a pop-up (if they're on the website), asking to chat. The requesting user will immediately go to the chat room (regardless if the number exists or not). The user being requested can either cancel or accept, and they'll go into the same chat. Chats between the two users should be relatively instantaneous.
 
@@ -117,7 +120,11 @@ A lot of the bugs have come about as the result of making sure the primary path 
 
 ### Strengths
 
+The benefit to this approach is there is very minimal surface area for a user to attack our database or gain access to sensitive information that we're storing. Because messages are going through React/Ant Design inputs and Pusher on the backend, there's other libraries in place preventing things like cross-site scripting or attacks that we might have to mitigate if we were storinng the information in our databases.
+
 ### Weaknesses
+
+The downside to this approach is that it has the look of a chat service but none of the data persistence. It's hard to tell when another use is on, and if you send them messages when they're not, they disappear forever. From a UX perspective it means that there might be expectations not being met. This could be mitigated by queueing and retrying certain messages, or waiting for them to be present in a channel to send, however that would require more data storage.
 
 ## Questions, Comments, Concerns
 
