@@ -23,6 +23,7 @@
     "publish-heroku": "cd .. && git subtree push --prefix messenger-be heroku-backend master"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.10",
     "@types/crypto-js": "^4.0.1",
     "@types/express": "^4.17.11",
     "@types/node": "^15.6.0",
