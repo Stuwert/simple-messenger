@@ -1,9 +1,9 @@
-import { USER_DETAILS } from "../localStorageValues";
+import { CHAT_RECORDS, USER_DETAILS } from "../localStorageValues";
 import updateUserConnectionDetails from "../updateUserConnectionDetails";
 import { UserDetails } from "../../Lobby/useSetUser";
 
 function getUsersFromLocalStorageOrError() {
-  const stringifiedUsers = localStorage.getItem(USER_DETAILS);
+  const stringifiedUsers = localStorage.getItem(CHAT_RECORDS);
 
   if (!stringifiedUsers) {
     throw new Error("Expected users but none exist");
@@ -29,11 +29,11 @@ describe("updateUserConnectionDetails", () => {
   ];
 
   beforeEach(() => {
-    localStorage.setItem(USER_DETAILS, JSON.stringify(userDetailsArray));
+    localStorage.setItem(CHAT_RECORDS, JSON.stringify(userDetailsArray));
   });
 
   it("should error if no user details are stored", () => {
-    localStorage.setItem(USER_DETAILS, "");
+    localStorage.setItem(CHAT_RECORDS, "");
 
     let errorMessage = "";
 

@@ -1,11 +1,11 @@
-import { USER_DETAILS } from "./localStorageValues";
+import { CHAT_RECORDS, USER_DETAILS } from "./localStorageValues";
 import { UserDetails } from "../Lobby/useSetUser";
 
 export default function updateUserConnectionDetails(
   publicId: string,
   newUsername: string
 ) {
-  const stringifiedUserDetails = localStorage.getItem(USER_DETAILS);
+  const stringifiedUserDetails = localStorage.getItem(CHAT_RECORDS);
 
   if (!stringifiedUserDetails) {
     throw new Error("No Stringified User Details");
@@ -24,5 +24,5 @@ export default function updateUserConnectionDetails(
     }
   );
 
-  localStorage.setItem(USER_DETAILS, JSON.stringify(newUserDetails));
+  localStorage.setItem(CHAT_RECORDS, JSON.stringify(newUserDetails));
 }
