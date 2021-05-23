@@ -1,0 +1,3 @@
+[build]
+  base = "mesenger-fe"
+  command = "yarn build"
