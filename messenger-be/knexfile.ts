@@ -4,4 +4,7 @@ export default {
   migrations: {
     tableName: "migrations",
   },
+  ssl: {
+    rejectUnauthorized: false,
+  },
 };
