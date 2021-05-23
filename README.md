@@ -67,17 +67,12 @@ yarn install
 to install the packages and
 
 ```
-yarn dev
+yarn start
 ```
 
 to run the dev server.
 
 The front end (with Create React App) has live reload, so most changes should appear instantaneously.
-
-```
-yarn install
-yarn start
-```
 
 ## Deployment
 
