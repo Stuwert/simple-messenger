@@ -27,3 +27,5 @@ https://stackoverflow.com/questions/1349404/generate-random-string-characters-in
 ## Deployment
 
 Deployment details taken from [How to Deploy Multiple Heroku Apps](https://adampaxton.com/how-to-deploy-to-multiple-heroku-apps-from-the-same-git-repository/)
+
+## Installation Step
