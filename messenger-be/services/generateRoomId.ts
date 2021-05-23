@@ -35,18 +35,16 @@ const SECRET_KEY = "SUPERSECRETKEY";
  *
  *
  */
-export async function fetchUserFromPublicKey(
-  publicIdContactUser: string
-): Promise<User> {
+export async function fetchUserFromPublicKey(publicId: string): Promise<User> {
   const [user] = await knex("users").select("*").where({
-    public_id: publicIdContactUser,
+    public_id: publicId,
   });
 
   if (!user) {
     return {
       username: "",
       privateId: Math.random().toString().slice(2, 10),
-      publicId: publicIdContactUser,
+      publicId: publicId,
     };
   }
 
@@ -58,10 +56,10 @@ export async function fetchUserFromPublicKey(
 }
 
 export async function fetchUserFromPrivateKey(
-  privateIdRequestUser: string
+  privateId: string
 ): Promise<User> {
   const [user] = await knex("users").select("*").where({
-    private_id: privateIdRequestUser,
+    private_id: privateId,
   });
 
   if (!user) {

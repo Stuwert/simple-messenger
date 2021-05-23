@@ -1,35 +1,24 @@
+import React, { useEffect, useState } from "react";
 import { Button, Card, Col, Input, PageHeader, Row } from "antd";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { USER_DETAILS } from "../utilities/localStorageValues";
 import getConnectionDetails from "../utilities/getConnectionDetails";
 import useChat, { MessageDetails } from "./useChat";
-
-/**
- * Making the assumption here that there
- * will only ever be two people in the chat
- * at a given time.
- *
- * That way we can basically care if the
- * username in the room is the same as the username
- * to determine whom it belongs to.
- */
-
-// Should we add an online indicator? Basically how many people are in the chat
-// So basically the server will have to subscribe them to an empty room if it doesn't exist
-// That's fine
-// On exit make sure to unsubscribe
-
-// Actually lol we won't know their username until they actually send it back from the API
-// TODO: Figure out how to get the username back
-// Actually just update it on the first subscription send
+import updateUserConnectionDetails from "../utilities/updateUserConnectionDetails";
 
 export default function Chat() {
   const { id } = useParams<{ id: string }>();
   const chatUser = getConnectionDetails(id);
 
-  const [isLoading, setLoading] = useState(false);
-  const [currentMessage, setCurrentMessage] = useState("");
+  /**
+   * TODO: Add handling for the edge case
+   * where we try to access a user chat directly
+   * but don't have them saved the user details localstorage.
+   * Should probably redirect.
+   */
+
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const [messageInProgress, setMessageInProgress] = useState("");
   const [chatUsername, setChatUsername] = useState(chatUser.username);
 
   const myUser = localStorage.getItem(USER_DETAILS);
@@ -42,27 +31,37 @@ export default function Chat() {
 
   const [messages, sendMessageToChat] = useChat(id, me);
 
+  /**
+   * This checks messages to see if we've received one
+   * from a user we initiated the chat with,
+   * and reads off their username and updates our instance with their name.
+   */
   useEffect(() => {
     const messageNotFromMe = messages.find(
       ({ username: messageUsername }: MessageDetails) => messageUsername !== me
     );
 
     if (!chatUsername && messageNotFromMe) {
+      updateUserConnectionDetails(chatUser.publicId, messageNotFromMe.username);
       setChatUsername(messageNotFromMe.username);
     }
-  }, [chatUsername, messages, me]);
+  }, [chatUsername, messages, me, chatUser.publicId]);
 
+  /**
+   * Orchestrates the relationship between our Input component
+   * and actually sending the message to the API.
+   */
   const sendMessage = async () => {
-    setLoading(true);
+    setSendingMessage(true);
 
     const message: MessageDetails = {
       username: me,
-      message: currentMessage,
+      message: messageInProgress,
     };
 
     sendMessageToChat(message);
-    setLoading(false);
-    setCurrentMessage("");
+    setSendingMessage(false);
+    setMessageInProgress("");
   };
 
   return (
@@ -82,21 +81,16 @@ export default function Chat() {
         <Col span={22}>
           <Input
             onPressEnter={sendMessage}
-            value={currentMessage}
-            onChange={(e) => setCurrentMessage(e.target.value)}
+            value={messageInProgress}
+            onChange={(e) => setMessageInProgress(e.target.value)}
           />
         </Col>
         <Col span={2}>
-          <Button loading={isLoading} onClick={sendMessage}>
+          <Button loading={sendingMessage} onClick={sendMessage}>
             Send
           </Button>
         </Col>
       </Row>
     </>
   );
-  // Check if the user is in the list of default apps
-  // if not, redirect back home
-  // See if there's a private id loaded, if there is go get it
-  // if there's not, make one.
-  // Read the public id off of the route
 }

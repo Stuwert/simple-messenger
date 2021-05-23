@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
-import { USER_DETAILS } from "./localStorageValues";
+import { USER_DETAILS } from "../utilities/localStorageValues";
 
 export interface UserDetails {
   username: string;
@@ -8,18 +8,18 @@ export interface UserDetails {
   publicId: string;
 }
 
-export default function useSetUser(): UserDetails | undefined {
-  // First it attempts to load local
-  // Does the POST request
-  // save deets to local storage
-  // returns deets
+/**
+ *
+ * This manages loading our user record
+ * in as minimal effort as possible without
+ * user interaction.
+ *
+ */
 
+export default function useSetUser(): UserDetails | undefined {
   const [userDetails, setUserDetails] =
     useState<UserDetails | undefined>(undefined);
 
-  /**
-   * Manages our user id
-   */
   useEffect(() => {
     const stringifiedUserDetails = localStorage.getItem(USER_DETAILS);
 
@@ -34,11 +34,8 @@ export default function useSetUser(): UserDetails | undefined {
           localStorage.setItem(USER_DETAILS, JSON.stringify(data));
           setUserDetails(data);
         });
-      // make request
     }
   }, []);
-
-  // connect to pusher
 
   return userDetails;
 }

@@ -4,6 +4,23 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 I've left this mostly the same as these remain applicable.
 
+## Overview and Focus
+
+## Pages
+
+### Lobby (/)
+
+The lobby is the main place that users will interact with the app. There are four main pieces of functionality it tries to accomplish:
+
+1. On load it tries to find a user detail object locally and fetches one from the API (then storing locally) if it cannot find it in local storage.
+2. Users can request a connection to a new user and then start a chat.
+3. User are alerted of an incoming connection request and can act on it.
+4. Users can connect with users they've previously connected to.
+
+### Chat (/chat/:chat_id)
+
+The chat app is the place where users interact with other users. It updates if new messages are received and sends new messages to the appropriate channel.
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -2,7 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
 import { Redirect } from "react-router";
 import pusher from "../utilities/pusherInstance";
-import { ConnectionDetails } from "./NewChat";
+import { ConnectionDetails } from "../utilities/getConnectionDetails";
+
+/**
+ *
+ * The purpose of this component is to manage listening for
+ * incoming Pusher notifications and popping up a modal
+ * when we receive a new one.
+ *
+ * In order to do so it subscribes us to a channel based on our private key.
+ *
+ * Throwing around a private key like this is not great, but I'm trying to
+ * nod at a unique channel without going too deep down a rabbit hole of
+ * managing keys.
+ *
+ */
 
 export default function IncomingChat({
   privateId,
@@ -20,7 +34,6 @@ export default function IncomingChat({
 
   const [hasAcceptedConnection, updateConnectionAcceptance] = useState(false);
 
-  // Opportunity for abstraction
   const startNewChat = () => {
     updateConnectionAcceptance(true);
     addNewRoom(userRequestingConnection);
@@ -38,6 +51,10 @@ export default function IncomingChat({
       setModalVisible();
       setUserRequestingConnection(message);
     });
+
+    return () => {
+      pusher.unsubscribe(privateId);
+    };
   });
 
   if (hasAcceptedConnection) {

@@ -1,5 +1,10 @@
-import { ConnectionDetails } from "../Lobby/NewChat";
 import { CHAT_RECORDS } from "./localStorageValues";
+
+export interface ConnectionDetails {
+  username: string;
+  publicId: string;
+  roomId: string;
+}
 
 export default function getConnectionDetails(
   publicId: string

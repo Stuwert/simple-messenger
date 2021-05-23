@@ -1,5 +1,5 @@
 import { USER_DETAILS } from "./localStorageValues";
-import { UserDetails } from "./useSetUser";
+import { UserDetails } from "../Lobby/useSetUser";
 
 export default function updateUserConnectionDetails(
   publicId: string,

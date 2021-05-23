@@ -17,14 +17,28 @@ export default function useChat(
   const storageLocation = getUserStorageLocation(publicId);
   const { roomId } = getConnectionDetails(publicId);
 
+  /**
+   * I added a queue step here so that the pusher
+   * useEffects wouldn't have to know about the existence of
+   * all of the messages and so wouldn't retrigger.
+   * This might be overarchitected though, and is likely
+   * a good spot for refactor.
+   */
   const [messageToAddToLocal, addMessageToQueue] =
     useState<MessageDetails | undefined>(undefined);
+  /**
+   * Manages overall message state
+   */
   const [messages, setMessages] = useState<MessageDetails[]>([]);
+  /**
+   * Handles the state of the message we're about to send
+   * and is our main point of communication with the react component.
+   */
   const [messageToSend, setMessagetoSend] =
     useState<MessageDetails | undefined>(undefined);
 
   /**
-   * Manages the localstorage we're connected to
+   * Loads existing chats from local storage
    */
   useEffect(() => {
     const chat = localStorage.getItem(getUserStorageLocation(publicId));
@@ -34,13 +48,25 @@ export default function useChat(
     }
   }, [publicId]);
 
+  /**
+   * saves new chats to local storage
+   */
   useEffect(() => {
     localStorage.setItem(storageLocation, JSON.stringify(messages));
   }, [messages, storageLocation]);
 
+  /**
+   * Handles subscription and un-subscription to Pusher Channel
+   * Updates our messages when we receive a new event that's
+   * not from us.
+   */
   useEffect(() => {
     const roomChannel = pusher.subscribe(roomId);
     roomChannel.bind("message", (message: MessageDetails) => {
+      /**
+       * Comparing usernames is super naive
+       * but should be good enough for now
+       */
       if (message.username !== me) {
         // theoretically we would add the logic here
         // to update the username if we don't have it
@@ -54,6 +80,10 @@ export default function useChat(
     };
   }, [roomId, me]);
 
+  /**
+   * Handles the post request to send a message
+   * we want to fire off
+   */
   useEffect(() => {
     if (messageToSend) {
       axios.post(
@@ -66,6 +96,10 @@ export default function useChat(
     }
   }, [messageToSend, roomId]);
 
+  /**
+   * Manages the queue so the other systems don't have to
+   * Adds message we send and receive to our list of messages
+   */
   useEffect(() => {
     if (messageToAddToLocal) {
       setMessages([...messages, messageToAddToLocal]);

@@ -23,7 +23,7 @@ export function generateUserNumber(): string {
 }
 
 export function generatePrivateKey(userNumber: string): string {
-  const date = new Date().toString;
+  const date = new Date().toString();
 
   return CryptoJS.SHA1(`${userNumber}${date}${SECRET_KEY}`).toString(
     CryptoJS.enc.Hex

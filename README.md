@@ -85,6 +85,10 @@ Deploying to the backend occurs via a custom build in the `package.json` (runnin
 
 Pushing to `main` will build the Netlify app out of the `messenger-fe` directory.
 
+## A Quick Word About Jest on the API
+
+I've added tests to both the front-end and the back-end. If you notice when running tests on the API, they hang. In my experience this is because the jest connection to the database hangs. I've decided to still include these tests because I think it's valuable for you to see how I think about testing database calls (using `--forceExit` to prevent jest from hanging), but also note that it's an unideal solution.
+
 ## Limitations and Bugs
 
 A lot of the bugs have come about as the result of making sure the primary path works (requesting to chat with different users from a single platform). Because no messages are stored this means that anything that's not captured real time will mostly disappear. This appeared within the requirements. Things like graceful errors have mostly been ignored.
@@ -105,6 +109,15 @@ A lot of the bugs have come about as the result of making sure the primary path 
 - There's no validation on public or private key (and the insert isn't retried), so it's possible to fail on the loading state if one of those were to hit a unique constraint.
 - Public and Private keys can get lost forever if the user clears local cache without
 - There's no back button to easily access the lobby from a chat.
+- Cors is set to allow all. It could be better restricted.
+- The input for "Connect to new user" is not forgiving
+- There's a nod in the data-structure but no explicit sort on created/updated date, so if messages accidentally get saved in the wrong order they'll stay that way.
+
+## Strengths and Weaknesses of this Approach
+
+### Strengths
+
+### Weaknesses
 
 ## Questions, Comments, Concerns
 

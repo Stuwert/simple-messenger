@@ -1,17 +1,28 @@
+import React, { useEffect, useState } from "react";
 import { Button, Card, PageHeader, Space } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import NewChat, { ConnectionDetails } from "./NewChat";
-import useSetUser from "../utilities/useSetUser";
+import NewChat from "./NewChat";
+import useSetUser from "./useSetUser";
 import IncomingChat from "./IncomingChat";
 import { CHAT_RECORDS } from "../utilities/localStorageValues";
+import { ConnectionDetails } from "../utilities/getConnectionDetails";
 
-// list out available chats
-// start a new chat
-// const baseChats = [{ username: "bingBong", publicId: '123-456' }, { username: 'singalong', publicId: '654-321'}]'
+/**
+ *
+ * The Lobby displays all of the chats we've saved in local storage
+ * and also gives us the opportunity to start a new chat.
+ */
 
 export default function Lobby() {
+  /**
+   * If we've never connected to the app before, this will generate a new
+   * set of userDetails via the API and store it to localstorage.
+   * If we have connected to the app before, this will return the userDetails
+   * stored there.
+   */
+  const userDetails = useSetUser();
+
   const [availableRooms, updateAvailableRooms] = useState<ConnectionDetails[]>(
     []
   );
@@ -20,12 +31,8 @@ export default function Lobby() {
     updateAvailableRooms([...availableRooms, newRoom]);
   };
 
-  // const [username, setUserName] = useState<string | undefined>(undefined);
-
-  const userDetails = useSetUser();
-
   /**
-   * Manages the rooms we're connected to
+   * These use effects save and retrieve our index of chats.
    */
   useEffect(() => {
     const stringifiedRooms = localStorage.getItem(CHAT_RECORDS);

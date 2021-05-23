@@ -4,11 +4,11 @@ import { Redirect } from "react-router";
 import { UserOutlined } from "@ant-design/icons";
 import useCreateConnection from "./useCreateConnection";
 
-export interface ConnectionDetails {
-  username: string;
-  publicId: string;
-  roomId: string;
-}
+/**
+ *
+ * This component is responsible for letting the user
+ * propose a new chat with another user.
+ */
 
 export default function NewChat({
   addNewRoom,

@@ -1,7 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { ConnectionDetails } from "./NewChat";
+import { ConnectionDetails } from "../utilities/getConnectionDetails";
 import { CHAT_RECORDS } from "../utilities/localStorageValues";
+
+/**
+ *
+ * This manages the state of
+ * creating a new connection:
+ *
+ * - talking to the server
+ * - storing the room id in local storage
+ *
+ */
 
 export default function useCreateConnection(
   addNewRoom: Function,
