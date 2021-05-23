@@ -15,7 +15,7 @@
   },
   "scripts": {
     "dev": "ts-node index.ts",
-    "build": "tsc",
+    "build": "npx tsc",
     "start": "node build/index.js",
     "publish-heroku": "cd .. && git subtree push --prefix messenger-be heroku-backend master"
   },
