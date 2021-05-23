@@ -16,3 +16,7 @@ There are no keys as it's presumed to already have them or be added in other way
 - POST /rooms/join (requests the code for the)
   - If the user doesn't exist it makes some gibberish up, that way you don't have access to a user you've never met before
 - Pusher stuff
+
+## Something here to change it
+
+bing bong
