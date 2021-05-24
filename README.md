@@ -54,7 +54,7 @@ I also opted not to use live reloading, so you'll need to restart between saves 
 
 ### Front End Set-up
 
-The Front-end runs off of a standard Create React App set-up for ease of set-up. (The webpack build has not been ejected yet). Front-end set-up will similarly require Pusher configuration. An `env.sample` file has been made available to you.
+The Front-end runs off of a standard Create React App set-up for ease of set-up. (The webpack build has not been ejected yet). Front-end set-up will similarly require Pusher configuration. An `env.sample` file has been made available to you. Simple copy the `env.sample` to `.env` and update the PUSHER keys with the appropriate values.
 
 The `API_URL` is set to port 3000 and there's a proxy in the `package.json` to route to `4000` to get around CORS issues.
 
